@@ -1,0 +1,293 @@
+// #ifdef ESP32
+//   #include <WiFi.h>
+// #else
+//   #include <ESP8266WiFi.h>
+// #endif
+
+// #include <WiFiClientSecure.h>
+// #include <UniversalTelegramBot.h>
+// #include <ArduinoJson.h>
+
+// // Ganti dengan kredensial jaringan Anda
+// const char* ssid = "swifties";
+// const char* password = "revaaaaa";
+
+// // Inisialisasi BOT Telegram
+// #define BOTtoken "7728341264:AAFv9Kxui3bGJ35GdffR7UKCpC0XW_ieQaU"  // Token Bot Anda (Dapatkan dari Botfather)
+// #define CHAT_ID "6058609663"  // ID chat Telegram
+
+// WiFiClientSecure client;
+// UniversalTelegramBot bot(BOTtoken, client);
+
+// // Mendeklarasikan pin untuk 5 sensor flame
+// int flameSensor1 = 34; // Sensor 1
+// int flameSensor2 = 35; // Sensor 2
+// int flameSensor3 = 32; // Sensor 3
+// int flameSensor4 = 33; // Sensor 4
+// int flameSensor5 = 25; // Sensor 5
+
+// // Nilai ambang batas untuk mendeteksi api
+// int threshold = 500; // Sesuaikan dengan nilai yang sesuai
+
+// void setup() {
+//   Serial.begin(115200);
+
+//   #ifdef ESP8266
+//   configTime(0, 0, "pool.ntp.org");      // get UTC time via NTP
+//   client.setTrustAnchors(&cert); // Add root certificate for api.telegram.org
+//   #endif
+
+//    #ifdef ESP32
+//     client.setCACert(TELEGRAM_CERTIFICATE_ROOT); // Add root certificate for api.telegram.org
+//   #endif
+  
+//   // Mengatur pin sensor sebagai input
+//   pinMode(flameSensor1, INPUT);
+//   pinMode(flameSensor2, INPUT);
+//   pinMode(flameSensor3, INPUT);
+//   pinMode(flameSensor4, INPUT);
+//   pinMode(flameSensor5, INPUT);
+
+//   // Koneksi WiFi
+//   Serial.print("Menghubungkan ke WiFi: ");
+//   Serial.println(ssid);
+
+//   WiFi.mode(WIFI_STA);
+//   WiFi.begin(ssid, password);
+
+//   while (WiFi.status() != WL_CONNECTED) {
+//     Serial.print(".");
+//     delay(500);
+//   }
+
+//   Serial.println("\nWiFi tersambung");
+//   Serial.print("Alamat IP: ");
+//   Serial.println(WiFi.localIP());
+// }
+
+// void loop() {
+//   // Membaca nilai sensor flame
+//   int sensor1Value = analogRead(flameSensor1);
+//   int sensor2Value = analogRead(flameSensor2);
+//   int sensor3Value = analogRead(flameSensor3);
+//   int sensor4Value = analogRead(flameSensor4);
+//   int sensor5Value = analogRead(flameSensor5);
+
+//   // Menampilkan nilai sensor di serial monitor
+//   Serial.print("Sensor 1: ");
+//   Serial.println(sensor1Value);
+//   Serial.print("Sensor 2: ");
+//   Serial.println(sensor2Value);
+//   Serial.print("Sensor 3: ");
+//   Serial.println(sensor3Value);
+//   Serial.print("Sensor 4: ");
+//   Serial.println(sensor4Value);
+//   Serial.print("Sensor 5: ");
+//   Serial.println(sensor5Value);
+
+//   // Menentukan apakah ada api di sekitar sensor dan mengirimkan notifikasi ke Telegram
+//   if (sensor1Value > threshold) {
+//     Serial.println("Api terdeteksi di arah 1");
+//     bool success = bot.sendMessage(CHAT_ID, "Api terdeteksi di arah 1!", "");
+//     if (success) {
+//       Serial.println("Pesan berhasil dikirim ke Telegram: Api terdeteksi di arah 1");
+//     } else {
+//       Serial.println("Gagal mengirim pesan ke Telegram.");
+//     }
+//   }
+//   if (sensor2Value > threshold) {
+//     Serial.println("Api terdeteksi di arah 2");
+//     bool success = bot.sendMessage(CHAT_ID, "Api terdeteksi di arah 2!", "");
+//     if (success) {
+//       Serial.println("Pesan berhasil dikirim ke Telegram: Api terdeteksi di arah 2");
+//     } else {
+//       Serial.println("Gagal mengirim pesan ke Telegram.");
+//     }
+//   }
+//   if (sensor3Value > threshold) {
+//     Serial.println("Api terdeteksi di arah 3");
+//     bool success = bot.sendMessage(CHAT_ID, "Api terdeteksi di arah 3!", "");
+//     if (success) {
+//       Serial.println("Pesan berhasil dikirim ke Telegram: Api terdeteksi di arah 3");
+//     } else {
+//       Serial.println("Gagal mengirim pesan ke Telegram.");
+//     }
+//   }
+//   if (sensor4Value > threshold) {
+//     Serial.println("Api terdeteksi di arah 4");
+//     bool success = bot.sendMessage(CHAT_ID, "Api terdeteksi di arah 4!", "");
+//     if (success) {
+//       Serial.println("Pesan berhasil dikirim ke Telegram: Api terdeteksi di arah 4");
+//     } else {
+//       Serial.println("Gagal mengirim pesan ke Telegram.");
+//     }
+//   }
+//   if (sensor5Value > threshold) {
+//     Serial.println("Api terdeteksi di arah 5");
+//     bool success = bot.sendMessage(CHAT_ID, "Api terdeteksi di arah 5!", "");
+//     if (success) {
+//       Serial.println("Pesan berhasil dikirim ke Telegram: Api terdeteksi di arah 5");
+//     } else {
+//       Serial.println("Gagal mengirim pesan ke Telegram.");
+//     }
+//   }
+
+//   // Tunggu sejenak sebelum membaca sensor lagi
+//   delay(1000);
+// }
+
+
+#ifdef ESP32
+  #include <WiFi.h>
+#else
+  #include <ESP8266WiFi.h>
+#endif
+
+#include <WiFiClientSecure.h>
+#include <UniversalTelegramBot.h>
+#include <ArduinoJson.h>
+
+// Ganti dengan kredensial jaringan Anda
+const char* ssid = "swifties";
+const char* password = "revaaaaa";
+
+// Inisialisasi BOT Telegram
+#define BOTtoken "7728341264:AAFv9Kxui3bGJ35GdffR7UKCpC0XW_ieQaU"  // Token Bot Anda (Dapatkan dari Botfather)
+#define CHAT_ID "6058609663"  // ID chat Telegram
+
+WiFiClientSecure client;
+UniversalTelegramBot bot(BOTtoken, client);
+
+// Mendeklarasikan pin untuk 5 sensor flame
+int flameSensor1 = 34; // Sensor 1
+int flameSensor2 = 35; // Sensor 2
+int flameSensor3 = 32; // Sensor 3
+int flameSensor4 = 33; // Sensor 4
+int flameSensor5 = 25; // Sensor 5
+
+// Pin untuk buzzer
+int buzzerPin = 27; // Tentukan pin untuk buzzer
+
+// Nilai ambang batas untuk mendeteksi api
+int threshold = 500; // Sesuaikan dengan nilai yang sesuai
+
+void setup() {
+  Serial.begin(115200);
+
+  #ifdef ESP8266
+  configTime(0, 0, "pool.ntp.org");      // get UTC time via NTP
+  client.setTrustAnchors(&cert); // Add root certificate for api.telegram.org
+  #endif
+
+   #ifdef ESP32
+    client.setCACert(TELEGRAM_CERTIFICATE_ROOT); // Add root certificate for api.telegram.org
+  #endif
+  
+  // Mengatur pin sensor sebagai input
+  pinMode(flameSensor1, INPUT);
+  pinMode(flameSensor2, INPUT);
+  pinMode(flameSensor3, INPUT);
+  pinMode(flameSensor4, INPUT);
+  pinMode(flameSensor5, INPUT);
+
+  // Mengatur pin buzzer sebagai output
+  pinMode(buzzerPin, OUTPUT);
+  digitalWrite(buzzerPin, LOW); // Matikan buzzer pada awalnya
+
+  // Koneksi WiFi
+  Serial.print("Menghubungkan ke WiFi: ");
+  Serial.println(ssid);
+
+  WiFi.mode(WIFI_STA);
+  WiFi.begin(ssid, password);
+
+  while (WiFi.status() != WL_CONNECTED) {
+    Serial.print(".");
+    delay(500);
+  }
+
+  Serial.println("\nWiFi tersambung");
+  Serial.print("Alamat IP: ");
+  Serial.println(WiFi.localIP());
+}
+
+void loop() {
+  // Membaca nilai sensor flame
+  int sensor1Value = analogRead(flameSensor1);
+  int sensor2Value = analogRead(flameSensor2);
+  int sensor3Value = analogRead(flameSensor3);
+  int sensor4Value = analogRead(flameSensor4);
+  int sensor5Value = analogRead(flameSensor5);
+
+  // Menampilkan nilai sensor di serial monitor
+  Serial.print("Sensor 1: ");
+  Serial.println(sensor1Value);
+  Serial.print("Sensor 2: ");
+  Serial.println(sensor2Value);
+  Serial.print("Sensor 3: ");
+  Serial.println(sensor3Value);
+  Serial.print("Sensor 4: ");
+  Serial.println(sensor4Value);
+  Serial.print("Sensor 5: ");
+  Serial.println(sensor5Value);
+
+  // Menentukan apakah ada api di sekitar sensor dan mengirimkan notifikasi ke Telegram
+  if (sensor1Value > threshold) {
+    Serial.println("Api terdeteksi di arah 1");
+    // Mengirimkan pesan ke Telegram
+    bool success = bot.sendMessage(CHAT_ID, "Api terdeteksi di arah 1!", "");
+    if (success) {
+      Serial.println("Pesan berhasil dikirim ke Telegram: Api terdeteksi di arah 1");
+    } else {
+      Serial.println("Gagal mengirim pesan ke Telegram.");
+    }
+
+    // Menyalakan buzzer jika api terdeteksi pada sensor 1
+    digitalWrite(buzzerPin, HIGH); // Nyalakan buzzer
+    delay(1000); // Buzzer menyala selama 1 detik
+    digitalWrite(buzzerPin, LOW); // Matikan buzzer setelah 1 detik
+  }
+  
+  if (sensor2Value > threshold) {
+    Serial.println("Api terdeteksi di arah 2");
+    bool success = bot.sendMessage(CHAT_ID, "Api terdeteksi di arah 2!", "");
+    if (success) {
+      Serial.println("Pesan berhasil dikirim ke Telegram: Api terdeteksi di arah 2");
+    } else {
+      Serial.println("Gagal mengirim pesan ke Telegram.");
+    }
+  }
+  
+  if (sensor3Value > threshold) {
+    Serial.println("Api terdeteksi di arah 3");
+    bool success = bot.sendMessage(CHAT_ID, "Api terdeteksi di arah 3!", "");
+    if (success) {
+      Serial.println("Pesan berhasil dikirim ke Telegram: Api terdeteksi di arah 3");
+    } else {
+      Serial.println("Gagal mengirim pesan ke Telegram.");
+    }
+  }
+  
+  if (sensor4Value > threshold) {
+    Serial.println("Api terdeteksi di arah 4");
+    bool success = bot.sendMessage(CHAT_ID, "Api terdeteksi di arah 4!", "");
+    if (success) {
+      Serial.println("Pesan berhasil dikirim ke Telegram: Api terdeteksi di arah 4");
+    } else {
+      Serial.println("Gagal mengirim pesan ke Telegram.");
+    }
+  }
+  
+  if (sensor5Value > threshold) {
+    Serial.println("Api terdeteksi di arah 5");
+    bool success = bot.sendMessage(CHAT_ID, "Api terdeteksi di arah 5!", "");
+    if (success) {
+      Serial.println("Pesan berhasil dikirim ke Telegram: Api terdeteksi di arah 5");
+    } else {
+      Serial.println("Gagal mengirim pesan ke Telegram.");
+    }
+  }
+
+  // Tunggu sejenak sebelum membaca sensor lagi
+  delay(1000);
+}
